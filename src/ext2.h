@@ -1,15 +1,30 @@
 /*
  * ext2 mount options
  */
-struct ext2_mount_options {
-	unsigned long s_mount_opt;
-	uid_t s_resuid;
-	gid_t s_resgid;
-};
+#include "Types.h"
+
+struct super_block{
+	__le32 s_inodes_count; 			/* Inodes count */
+	__le32 s_blocks_count; 			/* Blocks count */
+	__le32 s_r_blocks_count;		/* Reserved blocks count */
+	__le32 s_free_blocks_count; 		/* Free blocks count */
+	__le32 s_free_inodes_count; 		/* Free inodes count */
+	__le32 s_first_data_block; 		/* First Data Block */
+	__le32 s_log_block_size; 		/* Block size */
+	...
+	__le32 s_blocks_per_group; 		/* # Blocks per group */
+	...
+	__le32 s_inodes_per_group; 		/* # Inodes per group */
+
+	__le16 s_magic; 			/* Magic signature */
+	__le32 s_first_ino; 			/* First non-reserved inode */
+	__le16 s_inode_size; 			/* size of inode structure */
+}
 
 /*
  * second extended file system inode data in memory
  */
+
 struct ext2_inode_info {
 	__le32	i_data[15];
 	__u32	i_flags;
@@ -99,19 +114,6 @@ extern struct ext2_group_desc * ext2_get_group_desc(struct super_block * sb,
 						    unsigned int block_group,
 						    struct buffer_head ** bh);
 
-/* dir.c */
-extern int ext2_add_link (struct dentry *, struct inode *);
-extern ino_t ext2_inode_by_name(struct inode *, struct dentry *);
-extern int ext2_make_empty(struct inode *, struct inode *);
-extern struct ext2_dir_entry_2 * ext2_find_entry (struct inode *,struct dentry *, struct page **);
-extern int ext2_delete_entry (struct ext2_dir_entry_2 *, struct page *);
-extern int ext2_empty_dir (struct inode *);
-extern struct ext2_dir_entry_2 * ext2_dotdot (struct inode *, struct page **);
-extern void ext2_set_link(struct inode *, struct ext2_dir_entry_2 *, struct page *, struct inode *);
-
-/* fsync.c */
-extern int ext2_sync_file (struct file *, struct dentry *, int);
-
 /* ialloc.c */
 extern struct inode * ext2_new_inode (struct inode *, int);
 extern void ext2_free_inode (struct inode *);
@@ -132,11 +134,6 @@ extern int ext2_setattr (struct dentry *, struct iattr *);
 extern void ext2_set_inode_flags(struct inode *inode);
 extern void ext2_get_inode_flags(struct ext2_inode_info *);
 
-/* ioctl.c */
-extern int ext2_ioctl (struct inode *, struct file *, unsigned int,
-		       unsigned long);
-extern long ext2_compat_ioctl(struct file *, unsigned int, unsigned long);
-
 /* namei.c */
 struct dentry *ext2_get_parent(struct dentry *child);
 
@@ -152,13 +149,6 @@ extern void ext2_write_super (struct super_block *);
  * Inodes and files operations
  */
 
-/* dir.c */
-extern const struct file_operations ext2_dir_operations;
-
-/* file.c */
-extern const struct inode_operations ext2_file_inode_operations;
-extern const struct file_operations ext2_file_operations;
-extern const struct file_operations ext2_xip_file_operations;
 
 /* inode.c */
 extern const struct address_space_operations ext2_aops;
