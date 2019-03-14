@@ -1,0 +1,2 @@
+main.o: src/main.c src/SectorIO.h
+SectorIO.o: src/SectorIO.c src/SectorIO.h
