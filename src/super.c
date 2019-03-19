@@ -59,20 +59,20 @@ extern void ku_ext2_info_super()
 		printf("We don't support this format...\n");
 		return;
 	}
-	printf("Total Inode count: [%d]\n",pstSuper->s_inodes_count);
+	printf("Total Inode count: [%d]\t",pstSuper->s_inodes_count);
 	printf("Total Block count: [%d]\n",pstSuper->s_blocks_count);
 
-	printf("Free Inode count: [%d]\n",pstSuper->s_free_inodes_count);
+	printf("Free Inode count: [%d]\t\t",pstSuper->s_free_inodes_count);
 	printf("Free Block count: [%d]\n",pstSuper->s_free_blocks_count);
-	printf("First Data Block: [%d]\n",pstSuper->s_first_data_block);
+	printf("First Data Block: [%d]\t\t",pstSuper->s_first_data_block);
 	printf("Block Size: [%d]\n",pstSuper->s_log_block_size);
-	printf("Blocks per Group: [%d]\n",pstSuper->s_blocks_per_group);
+	printf("Blocks per Group: [%d]\t",pstSuper->s_blocks_per_group);
 	printf("Inodes per Group: [%d]\n",pstSuper->s_inodes_per_group);
-	printf("magic: [%d]\n",pstSuper->s_magic);
-	printf("First Inode: [%d]\n",pstSuper->s_first_ino);
+	printf("magic: [%d]\t\t",pstSuper->s_magic);
+	printf("First Inode: [%d]\t\t",pstSuper->s_first_ino);
 	printf("Inode Size: [%d]\n",pstSuper->s_inode_size);
 	st_time = pstSuper->s_mtime;
-	printf("last mount time %s",ctime(&st_time));
+	printf("last mount  time %s",ctime(&st_time));
 	st_time = pstSuper->s_wtime;
 	printf("last access time %s",ctime(&st_time));
 	return;
