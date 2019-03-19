@@ -14,7 +14,7 @@
  *  --------------------------------------------------------------|
  *
  *	<Block 3>-----------------------------------------------------|
- * 	| block 3 1 block block bitmap                                |
+ * 	| block 3 1 block data block bitmap                           |
  *  --------------------------------------------------------------|
  *
  *	<Block 4>-----------------------------------------------------|
@@ -32,10 +32,10 @@
 #define KU_EXT2_BLOCK_SIZE					1024
 
 #define KU_EXT2_SUPER_MAGIC					0xBEEF
-#define KU_EXT2_SUPER_BLOCK_OFFSET			2
+#define KU_EXT2_SUPER_BLOCK_OFFSET			1
 #define KU_EXT2_SUPER_BLOCK_COUNT			1
 
-#define KU_EXT2_BLOCK_GROUP_BLOCK_OFFSET	3
+#define KU_EXT2_BLOCK_GROUP_BLOCK_OFFSET	2
 #define KU_EXT2_BLOCK_GROUP_BLOCK_COUNT		1
 
 #define KU_EXT2_INODE_BITMAP_BLOCK_OFFSET	4

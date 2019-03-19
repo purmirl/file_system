@@ -1,12 +1,29 @@
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 #include "SectorIO.h"
 #include "ext2.h"
 #include "super.h"
-char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
 int main(){
+	char command_buffer[255 + 1] ={0,};
+	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
 	init_IO();
-	printf("%ld\n",sizeof(time_t));
-	ku_ext2_read_super((struct super_block*) buffer);
+	/* Shell interface... */
+	while(1){
+		printf("shell>");
+		memset(command_buffer,0,256);
+		scanf("%255s",command_buffer);
+		/*
+		 * Now linear search O(n) algorithm
+		 * But It's quite acceptable
+		 */
+		if(strcmp(command_buffer,"exit")==0){
+			break;
+		}
+		if(strcmp(command_buffer,"infosuper")==0)
+			ku_ext2_info_super();
+		if(strcmp(command_buffer,"format")==0)
+			ku_ext2_format_super();
+	}
 	close_IO();
 }

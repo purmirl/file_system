@@ -38,10 +38,10 @@ struct inode{
 	__u16 i_mode;
 	__u16 i_uid;
 	__u32 i_size;
-	__u32 i_atime;		/* last time this inode was accessed. */
-	__u32 i_ctime;		/* when the inode was created.*/
-	__u32 i_mtime;		/* last time this inode was modified. */
-	__u32 i_dtime;		/* when the inode was deleted. */
+	__u64 i_atime;		/* last time this inode was accessed. */
+	__u64 i_ctime;		/* when the inode was created.*/
+	__u64 i_mtime;		/* last time this inode was modified. */
+	__u64 i_dtime;		/* when the inode was deleted. */
 	__u16 i_gid;
 	__u16 i_links_count;
 	__u32 i_blocks;		/* total number of blocks reserved to contain the data of this inode */
