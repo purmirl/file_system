@@ -76,11 +76,11 @@ static void ku_ext2_info_group_descriptor(struct block_group *bg)
 static void ku_ext2_init_group(struct block_group *bg, int index)
 {
 	memset(bg,0,sizeof(struct block_group));
-	bg->bg_block_bitmap = KU_EXT2_BOOTLOASER_BLOCK_COUT + KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
+	bg->bg_block_bitmap =  KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
 			KU_EXT2_BLOCK_BITMAP_BLOCK_OFSSET;
-	bg->bg_inode_bitmap = KU_EXT2_BOOTLOASER_BLOCK_COUT + KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
+	bg->bg_inode_bitmap =  KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
 			KU_EXT2_INODE_BITMAP_BLOCK_OFFSET;
-	bg->bg_inode_table = KU_EXT2_BOOTLOASER_BLOCK_COUT + KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
+	bg->bg_inode_table =  KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
 			KU_EXT2_INODE_BLOCK_OFFSET;
 	bg->bg_free_blocks_count = KU_EXT2_INODE_BLOCK_COUNT;
 	bg->bg_free_inodes_count = KU_EXT2_DATA_BLOCK_COUNT;
