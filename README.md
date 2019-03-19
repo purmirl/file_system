@@ -3,6 +3,10 @@ file_system ext2 simulator
 
 # command list
 
-format - formatting the file system
+formatsuper - formatting the super block
+
+formatgroup - formatting the group block
   
 infosuper - read the metadata of superblock
+
+infogroup - read teh metadata of groupblock
