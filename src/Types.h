@@ -9,7 +9,6 @@
 
 #define TRUE 	1
 #define FALSE	0
-#define NULL	0
 
 /* 리눅스 ext2.h 호환용 매크로 */
 typedef DWORD	uid_t;

@@ -1,2 +1,6 @@
-main.o: src/main.c src/SectorIO.h
-SectorIO.o: src/SectorIO.c src/SectorIO.h
+main.o: src/main.c src/SectorIO.h src/ext2.h src/Types.h src/super.h \
+ src/inode.h
+super.o: src/super.c src/SectorIO.h src/ext2.h src/Types.h src/super.h \
+ src/inode.h
+SectorIO.o: src/SectorIO.c src/SectorIO.h src/ext2.h src/Types.h \
+ src/super.h src/inode.h
