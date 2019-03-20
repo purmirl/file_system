@@ -1,24 +1,41 @@
-/*
+/**
+ * 2019 EXT2 Study
  * super.c
+ * ------------
  *
  *  Created on: 2019. 3. 19.
  *      Author: DEWH
  */
+
 #include "SectorIO.h"
 #include "inode.h"
 #include "ext2.h"
 #include <time.h>
-extern int ku_ext2_write_super (void *pstSuper)
-{
+
+/**
+ * ext2.h :: ku_ext2_write_super(void *pstSuper)
+ */
+extern int ku_ext2_write_super (void *pstSuper){
+	/**
+ 	 * SectorIO.h :: Block_Write()
+ 	 */ 
 	return Block_Write(pstSuper, KU_EXT2_SUPER_BLOCK_OFFSET, KU_EXT2_SUPER_BLOCK_COUNT);
 }
-extern int ku_ext2_read_super (void *pstSuper)
-{
+
+/**
+ * ext2.h :: ku_ext2_read_super(void *pstSuper)
+ */
+extern int ku_ext2_read_super (void *pstSuper){
+	/**
+  	 * SectorIO.h :: Block_Read()
+  	 */ 
 	return Block_Read(pstSuper, KU_EXT2_SUPER_BLOCK_OFFSET, KU_EXT2_SUPER_BLOCK_COUNT);
 }
 
-extern void ku_ext2_format_super()
-{
+/**
+ * ext2.h :: ku_ext2_format_super()
+ */
+extern void ku_ext2_format_super(){
 	char buffer[KU_EXT2_BLOCK_SIZE]= {0,};
 	struct super_block* pstSuper;
 	time_t current_time;
@@ -45,8 +62,10 @@ extern void ku_ext2_format_super()
 		printf("Format Success...!\n");
 }
 
-extern void ku_ext2_info_super()
-{
+/**
+ * ext2.h :: ku_ext2_info_super()
+ */
+extern void ku_ext2_info_super(){
 	char buffer[KU_EXT2_BLOCK_SIZE]= {0,};
 	struct super_block* pstSuper;
 	time_t st_time;
