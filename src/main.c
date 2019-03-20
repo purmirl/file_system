@@ -37,7 +37,7 @@ int main(){
  	 * 	 	- formatsuper : Set the super block. 
  	 * 	 	- infogroup : Information of group descriptor
  	 * 	 	- formatgroup : Set the group descriptor
- 	 **/
+ 	 */
 	while(1){
 		printf("shell>");
 		memset(command_buffer,0,256);
