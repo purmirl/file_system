@@ -8,7 +8,12 @@
 int main(){
 	char command_buffer[255 + 1] ={0,};
 	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
+
+	/**
+	 * SectorIO.h :: init_IO()
+	 */ 
 	init_IO();
+	
 	/* Shell interface... */
 	while(1){
 		printf("shell>");
@@ -41,5 +46,9 @@ int main(){
 		}
 		printf("Can not find '%s'...\n", command_buffer);
 	}
+	
+	/**
+ 	* SectorIO.h :: close_IO() 
+ 	*/
 	close_IO();
 }
