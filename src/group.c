@@ -1,17 +1,23 @@
-/*
+/**
+ * 2019 EXT2 Study
  * group.c
+ * ------------
  *
  *  Created on: 2019. 3. 19.
  *      Author: DEWH
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "group.h"
 #include "ext2.h"
 #include "SectorIO.h"
-extern void ku_ext2_format_group()
-{
+
+/**
+ * ext2.h :: ku_ext2_format_group() 
+ */
+extern void ku_ext2_format_group(){
 	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
 	struct block_group *pst_group;
 	struct block_group init_group;
@@ -40,8 +46,11 @@ extern void ku_ext2_format_group()
 	printf("Group Format Success...!\n");
 
 }
-extern void ku_ext2_info_group()
-{
+
+/**
+ * ext2.h :: ku_ext2_info_group()
+ */
+extern void ku_ext2_info_group(){
 	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
 	struct block_group *pst_group;
 	int i;
@@ -64,8 +73,11 @@ extern void ku_ext2_info_group()
 		j++;
 	}
 }
-static void ku_ext2_info_group_descriptor(struct block_group *bg)
-{
+
+/**
+ * ku_ext2_info_group_descriptor(struct block_group *bg) : print the information of the group blocks.
+ */
+static void ku_ext2_info_group_descriptor(struct block_group *bg){
 	printf("Data  Bitmap Block Offset [%d]\n", bg->bg_block_bitmap);
 	printf("Inode Bitmap Block Offset [%d]\n", bg->bg_inode_bitmap);
 	printf("Inode table  Block Offset [%d]\n", bg->bg_inode_table);
@@ -73,8 +85,11 @@ static void ku_ext2_info_group_descriptor(struct block_group *bg)
 	printf("Free inode Block Count [%d]\n", bg->bg_free_inodes_count);
 	printf("Used Dir Count [%d]\n", bg->bg_used_dirs_count);
 }
-static void ku_ext2_init_group(struct block_group *bg, int index)
-{
+
+/**
+ * ku_ext2_init_group(struct block_group *bg, int index) : init the group blocks.
+ */
+static void ku_ext2_init_group(struct block_group *bg, int index){
 	memset(bg,0,sizeof(struct block_group));
 	bg->bg_block_bitmap =  KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
 			KU_EXT2_BLOCK_BITMAP_BLOCK_OFSSET;
