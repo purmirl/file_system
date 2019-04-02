@@ -5,24 +5,26 @@
  *	| byte 512 512 bytes additional boot record data (if present) |
  *	--------------------------------------------------------------|
  *
- *	<Block 1>-----------------------------------------------------|
- * 	| byte 1024 1024 bytes superblock                             |
- * 	--------------------------------------------------------------|
- *
- * 	<Block 2>-----------------------------------------------------|
- * 	| block 2 1 block block group descriptor table                |
- *  --------------------------------------------------------------|
- *
- *	<Block 3>-----------------------------------------------------|
- * 	| block 3 1 block data block bitmap                           |
- *  --------------------------------------------------------------|
- *
- *	<Block 4>-----------------------------------------------------|
- * 	| block 4 1 block inode bitmap                                |
- *  --------------------------------------------------------------|
- *
- * 	block 5 214 blocks inode table
- * 	block 219 7974 blocks data blocks
+ *	<Block Group 1>------------------------------------------------|
+ *	| <Block 1>----------------------------------------------------||
+ * 	| | byte 1024 1024 bytes superblock                            ||
+ * 	| |------------------------------------------------------------||
+ *  |                                                               |
+ * 	| <Block 2>----------------------------------------------------||
+ * 	| | block 2 1 block block group descriptor table               ||
+ *  | |------------------------------------------------------------||
+ *  |                                                               |
+ *	| <Block 3>----------------------------------------------------||
+ * 	| | block 3 1 block data block bitmap                          ||
+ *  | -------------------------------------------------------------||
+ *  |                                                               |
+ *	| <Block 4>----------------------------------------------------||
+ * 	| | block 4 1 block inode bitmap                               ||
+ *  | |------------------------------------------------------------||
+ *  |                                                               |
+ * 	|block 5 214 blocks inode table                                 |
+ * 	|block 219 7974 blocks data blocks                              |
+ * 	|----------------------------------------------------------------
  */
 
 #include "Types.h"
@@ -77,10 +79,15 @@ extern void ext2_check_blocks_bitmap (struct super_block *);
 						    struct buffer_head ** bh);
 */
 /* ialloc.c */
-extern struct inode * ext2_new_inode (struct inode *, int);
-extern void ext2_free_inode (struct inode *);
-extern unsigned long ext2_count_free_inodes (struct super_block *);
-extern void ext2_check_inodes_bitmap (struct super_block *);
+extern void ku_ext2_init_root(struct inode *root);
+extern int ku_ext2_format_root();
+extern int ext2_new_inode (struct inode *target_inode);
+extern unsigned int ext2_check_inodes_bitmap (__u32 bg_block_bitmap);
+extern long bit_search(unsigned long val,long size, long offset);
+//extern struct inode * ext2_new_inode (struct inode *, int);
+//extern void ext2_free_inode (struct inode *);
+//extern unsigned long ext2_count_free_inodes (struct super_block *);
+//extern unsigned int ext2_check_inodes_bitmap (__u32 bg_block_bitmap);
 /*
 extern unsigned long ext2_count_free (struct buffer_head *, unsigned);
 */

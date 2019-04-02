@@ -96,3 +96,14 @@ extern void ku_ext2_info_super(){
 	printf("last access time %s",ctime(&st_time));
 	return;
 }
+extern void ku_ext2_mount(struct ext2_manager* em)
+{
+	char buffer[KU_EXT2_BLOCK_SIZE];
+	struct super_block* sb;
+	ku_ext2_read_super(buffer);
+	sb = (struct super_block*)buffer;
+	em->g_blocks_per_group = sb->s_blocks_per_group;
+	em->g_first_data_block = sb->s_first_data_block;
+	em->g_first_ino = sb->s_first_ino;
+	em->g_inodes_per_group = sb->s_inodes_per_group;
+}

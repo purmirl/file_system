@@ -8,6 +8,12 @@
 #ifndef __FILE_SYSTEM_SRC_SUPER_H_
 #define __FILE_SYSTEM_SRC_SUPER_H_
 #include "Types.h"
+struct ext2_manager{
+	__u32 g_inodes_per_group;
+	__u32 g_blocks_per_group;
+	__u32 g_first_ino;
+	__u32 g_first_data_block;
+};
 
 struct super_block{
 	__u32 s_inodes_count; 			/* Inodes count (s_inodes_per_group * number of block groups)*/
@@ -27,6 +33,8 @@ struct super_block{
 };
 extern void ku_ext2_format_super();
 extern void ku_ext2_info_super();
+extern void ku_ext2_mount();
+
 
 extern int ku_ext2_write_super (void *);
 extern int ku_ext2_read_super (void *);

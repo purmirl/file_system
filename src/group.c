@@ -15,14 +15,15 @@
 #include "SectorIO.h"
 
 /**
- * ext2.h :: ku_ext2_format_group() 
+ * ext2.h :: ku_ext2_format_group()
+ * 좀 더 엄밀하게 말하면 group_descriptor table을 format하는 것이다.
  */
 extern void ku_ext2_format_group(){
 	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
 	struct block_group *pst_group;
 	struct block_group init_group;
-	int i;
-	int j;
+	/* 현재 block_group 사이즈는 32바이트이다  */
+	int i,j;
 	int k = 0;
 	pst_group = (struct block_group *)buffer;
 	for(i = 0; i <= KU_EXT2_BLOCK_GROUP_COUNT; i++){
@@ -30,12 +31,13 @@ extern void ku_ext2_format_group(){
 		/* 마지막에는 NULL descriptor을 넣어준다. */
 		if( i == KU_EXT2_BLOCK_GROUP_COUNT)
 			memset(&init_group,0,sizeof(struct block_group));
+
 		memcpy(&(pst_group[i]),&init_group,sizeof(struct block_group));
 		j+=sizeof(struct block_group);
-		if(j > KU_EXT2_BLOCK_SIZE){
+
+		if(j >= KU_EXT2_BLOCK_SIZE){
 			printf("Block writing...!\n");
-			Block_Write(buffer, KU_EXT2_BLOCK_GROUP_BLOCK_OFFSET + k, 1);
-			k++;
+			Block_Write(buffer, KU_EXT2_BLOCK_GROUP_BLOCK_OFFSET + k++, 1);
 			j=0;
 		}
 	}
@@ -90,6 +92,7 @@ static void ku_ext2_info_group_descriptor(struct block_group *bg){
  * ku_ext2_init_group(struct block_group *bg, int index) : init the group blocks.
  */
 static void ku_ext2_init_group(struct block_group *bg, int index){
+	char buffer[KU_EXT2_BLOCK_SIZE]= {0,};
 	memset(bg,0,sizeof(struct block_group));
 	bg->bg_block_bitmap =  KU_EXT2_BLOCK_GROUP_TOTAL_COUNT * index + \
 			KU_EXT2_BLOCK_BITMAP_BLOCK_OFSSET;
@@ -100,4 +103,7 @@ static void ku_ext2_init_group(struct block_group *bg, int index){
 	bg->bg_free_blocks_count = KU_EXT2_INODE_BLOCK_COUNT;
 	bg->bg_free_inodes_count = KU_EXT2_DATA_BLOCK_COUNT;
 	bg->bg_used_dirs_count = 0;
+	/* 비트맵 초기화 */
+	Block_Write(buffer, bg->bg_block_bitmap, 1);
+	Block_Write(buffer, bg->bg_inode_bitmap, 1);
 }

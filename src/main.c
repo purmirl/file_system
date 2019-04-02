@@ -21,6 +21,9 @@
 #include "ext2.h"
 #include "super.h"
 #include "group.h"
+/* 시스템에서 필요한 메타 데이터를 저장하는 구조체 */
+struct ext2_manager my_manager;
+
 int main(){
 	char command_buffer[255 + 1] ={0,};
 	char buffer[KU_EXT2_BLOCK_SIZE] = {0,};
@@ -29,7 +32,7 @@ int main(){
 	 * SectorIO.h :: init_IO()
 	 */ 
 	init_IO();
-	
+	printf("size:%d",sizeof(struct block_group));
 	/** 
  	 * Shell interface... : shell>
  	 * Command : 	- exit
@@ -48,7 +51,6 @@ int main(){
 		 * But It's quite acceptable
 		 */
 		if(strcmp(command_buffer,"exit")==0){
-			printf("%s\n");
 			break;
 		}
 		if(strcmp(command_buffer,"infosuper")==0){
@@ -71,6 +73,17 @@ int main(){
 			ku_ext2_format_group();
 			continue;
 		}
+		if(strcmp(command_buffer,"mount")==0){
+			ku_ext2_mount(&my_manager);
+			continue;
+		}
+		if(strcmp(command_buffer,"formatroot")==0){
+			ku_ext2_format_root();
+			continue;
+		}
+		/*
+		 * init root and read root;
+		 * */
 		printf("Can not find '%s'...\n", command_buffer);
 	}
 	

@@ -19,7 +19,7 @@ Dependency:
 # 실제 커널 이미지를 빌드
 main.exe: $(CSOURCEFILES) 
 	@echo $(CSOURCEFILES)
-	gcc -o main.exe $(CSOURCEFILES)
+	gcc -o main.exe $(CSOURCEFILES) -g
 
 # 오브젝트 파일이 위치할 디렉터리를 생성
 prepare:
