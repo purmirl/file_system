@@ -32,7 +32,6 @@ int main(){
 	 * SectorIO.h :: init_IO()
 	 */ 
 	init_IO();
-	printf("size:%d",sizeof(struct block_group));
 	/** 
  	 * Shell interface... : shell>
  	 * Command : 	- exit

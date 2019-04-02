@@ -27,10 +27,11 @@ extern void ku_ext2_format_group(){
 	int k = 0;
 	pst_group = (struct block_group *)buffer;
 	for(i = 0; i <= KU_EXT2_BLOCK_GROUP_COUNT; i++){
-		ku_ext2_init_group(&init_group, i);
 		/* 마지막에는 NULL descriptor을 넣어준다. */
 		if( i == KU_EXT2_BLOCK_GROUP_COUNT)
 			memset(&init_group,0,sizeof(struct block_group));
+		else
+			ku_ext2_init_group(&init_group, i);
 
 		memcpy(&(pst_group[i]),&init_group,sizeof(struct block_group));
 		j+=sizeof(struct block_group);

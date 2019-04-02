@@ -12,8 +12,11 @@ static FILE* image;
  */
 void init_IO(){
 	image = fopen("HDD.img","rb+");
-	if(image == NULL)
-		fprintf(stderr,"fopen failed...!\n");
+	if(image == NULL){
+		image  = fopen("C:\\Users\\DEWH\\eclipse-workspace\\Ext2\\file_system\\HDD.img","rb+");
+		if(image == NULL)
+			fprintf(stderr,"fopen failed...!\n");
+	}
 }
 
 /**

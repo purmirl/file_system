@@ -5,6 +5,12 @@
  *      Author: DEWH
  */
 #include "ext2.h"
+#include "SectorIO.h"
+#include "group.h"
+extern int ext2_new_datablock (struct inode *target_inode)
+{
+
+}
 
 extern int ext2_bg_has_super(struct super_block *sb, int group);
 extern unsigned long ext2_bg_num_gdb(struct super_block *sb, int group);

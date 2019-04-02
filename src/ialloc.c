@@ -46,10 +46,19 @@ extern int ku_ext2_format_root()
 
 	pst_group = (struct block_group *)buffer;
 	temp = pst_group->bg_inode_table;
+
 	ku_ext2_init_root(root);
+	/*첫 데이터 블럭 세팅 */
+	root->i_block[0] = ext2_check_bitmap(pst_group->bg_block_bitmap);
+	printf("Data Block:%d\n",root->i_block[0]);
 	memcpy(buffer,root,KU_EXT2_BLOCK_SIZE);
 	if(Block_Write(buffer, temp, 1) < 0)
 		return -1;
+
+	memset(buffer,0xAB,1024);
+	/* 수정 요함 */
+	if(Block_Write(buffer, 219 + (root->i_block[0]), 1) < 0)
+			return -1;
 	return 1;
 }
 extern int ext2_new_inode (struct inode *target_inode)
@@ -75,7 +84,7 @@ extern int ext2_new_inode (struct inode *target_inode)
 				return -1;
 			}
 			if(pst_group[i].bg_free_inodes_count!=0){
-				inode_offset = ext2_check_inodes_bitmap(pst_group[i].bg_inode_bitmap);
+				inode_offset = ext2_check_bitmap(pst_group[i].bg_inode_bitmap);
 				pst_group[i].bg_free_inodes_count--;
 				/* 그룹 디스크립터를 갱신 */
 				Block_Write(buffer, KU_EXT2_BLOCK_GROUP_BLOCK_OFFSET + j, 1);
@@ -93,18 +102,18 @@ extern int ext2_new_inode (struct inode *target_inode)
 //extern void ext2_free_inode (struct inode *);
 //extern unsigned long ext2_count_free_inodes (struct super_block *);
 /* 비트맵 시작 블록 오프셋을 받고, 빈 곳을 서치한다. */
-extern int ext2_check_inodes_bitmap (__u32 bg_block_bitmap)
+extern int ext2_check_bitmap (__u32 bg_bitmap)
 {
 	/*
 	 * Parameter: block offset of the bitmap
-	 * Desciption: Search the usable inode from indoe bitmap and renew the bitmap
-	 * return: On success return 1, Fail return 0
+	 * Desciption: Search the bitmap and renew the bitmap
+	 * return: On success return bit offset, Fail return -1
 	 * */
 	char buffer[KU_EXT2_BLOCK_SIZE];
 	char eightbit;
 	int bit_offset;
-	/* 한 블럭짜리 inode 비트맵을 읽는다. */
-	if(Block_Read(buffer, bg_block_bitmap, 1)<0){
+	/* 한 블럭짜리 비트맵을 읽는다. */
+	if(Block_Read(buffer, bg_bitmap, 1)<0){
 		printf("Bitmap read failed...\n");
 		return -1;
 	}
@@ -115,7 +124,7 @@ extern int ext2_check_inodes_bitmap (__u32 bg_block_bitmap)
 		if(bit_offset < 8){
 			*((char*)(buffer+i)) |= (0x1 << (bit_offset));
 			bit_offset = 8*i + bit_offset;
-			if(Block_Write(buffer, bg_block_bitmap, 1) <0){
+			if(Block_Write(buffer, bg_bitmap, 1) <0){
 				printf("Bitmap allocate failed...\n");
 				return -1;
 			}
@@ -127,9 +136,9 @@ extern int ext2_check_inodes_bitmap (__u32 bg_block_bitmap)
 	return -1;
 }
 /* 간단한 버전 */
-int simple_bit_search(char eightbit){
+extern int simple_bit_search(char eightbit){
 	int temp = 0;
-	while(((eightbit & 0x1) == 0x0)&& (temp < 8)){
+	while(((eightbit & 0x1) != 0x0)&& (temp < 8)){
 		eightbit >>= 1;
 		temp++;
 	}

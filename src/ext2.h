@@ -82,7 +82,8 @@ extern void ext2_check_blocks_bitmap (struct super_block *);
 extern void ku_ext2_init_root(struct inode *root);
 extern int ku_ext2_format_root();
 extern int ext2_new_inode (struct inode *target_inode);
-extern unsigned int ext2_check_inodes_bitmap (__u32 bg_block_bitmap);
+extern int ext2_check_bitmap (__u32 bg_bitmap);
+extern int simple_bit_search(char eightbit);
 extern long bit_search(unsigned long val,long size, long offset);
 //extern struct inode * ext2_new_inode (struct inode *, int);
 //extern void ext2_free_inode (struct inode *);
@@ -96,9 +97,9 @@ extern unsigned long ext2_count_free (struct buffer_head *, unsigned);
 struct directory_entry *ext2_get_parent(struct directory_entry *child);
 
 /* namei.c */
-extern const struct inode_operations ext2_dir_inode_operations;
-extern const struct inode_operations ext2_special_inode_operations;
+extern const struct inode_operations ku_ext2_dir_inode_operations;
+extern const struct inode_operations ku_ext2_special_inode_operations;
 
 /* symlink.c */
-extern const struct inode_operations ext2_fast_symlink_inode_operations;
-extern const struct inode_operations ext2_symlink_inode_operations;
+extern const struct inode_operations ku_ext2_fast_symlink_inode_operations;
+extern const struct inode_operations ku_ext2_symlink_inode_operations;
